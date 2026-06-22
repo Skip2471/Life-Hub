@@ -1,1 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Life Hub</title>
+  <meta name="theme-color" content="#1428c8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Life Hub" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #fdeff6 0%, #ffffff 45%, #eef3ff 100%);
+      color: #102a72;
+    }
+
+    header {
+      background: #1428c8;
+      color: white;
+      text-align: center;
+      padding: 45px 18px 55px;
+      border-bottom-left-radius: 42px;
+      border-bottom-right-radius: 42px;
+      box-shadow: 0 8px 24px rgba(20,40,200,0.25);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 48px;
+      letter-spacing: 1px;
+    }
+
+    header p {
+      margin: 10px 0 0;
+      font-size: 17px;
+      opacity: 0.95;
+    }
+
+    main {
+      max-width: 900px;
+      margin: -30px auto 90px;
+      padding: 0 16px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .home-card, .card {
+      background: white;
+      border-radius: 26px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(16,42,114,0.12);
+      border: 1px solid rgba(20,40,200,0.08);
+    }
+
+    .home-card {
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .home-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(16,42,114,0.16);
+    }
+
+    .home-card h2 {
+      margin: 0;
+      font-size: 26px;
+      color: #1428c8;
+    }
+
+    .home-card p {
+      margin: 8px 0 0;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .back-btn, button {
+      border: none;
+      border-radius: 16px;
+      padding: 13px 16px;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .back-btn {
+      background: #1428c8;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    .save-btn {
+      background: #ff5fa2;
+      color: white;
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    .danger {
+      background: #eee;
+      color: #333;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    h2.section-title {
+      margin: 6px 0 16px;
+      font-size: 34px;
+      color: #1428c8;
+    }
+
+    h3 {
+      color: #1428c8;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-top: 12px;
+      margin-bottom: 6px;
+      color: #102a72;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid #cfd6ff;
+      font-size: 16px;
+      font-family: Arial, sans-serif;
+      background: #fbfcff;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .two-col {
+      display: grid;
+      gap: 16px;
+    }
+
+    @media (min-width: 700px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+      .two-col { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .summary {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: #f4f6ff;
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 26px;
+      color: #1428c8;
+    }
+
+    .item {
+      background: #f8f9ff;
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 10px;
+      border-left: 6px solid #ff5fa2;
+    }
+
+    .item b {
+      color: #1428c8;
+    }
+
+    .small {
+      color: #666;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Life Hub</h1>
+    <p>Your dogs, money, garage, and health — all in one place.</p>
+  </header>
+
+  <main>
+    <section id="home" class="section active">
+      <div class="grid">
+        <div class="home-card" onclick="showSection('pups')">
+          <h2>🐶 Rocket & Luna Life</h2>
+          <p>Profiles, weight, food, funny habits, vet records, grooming, recipes, and memories.</p>
+        </div>
+
+        <div class="home-card" onclick="showSection('money')">
+          <h2>💰 Elias Financial Dashboard</h2>
+          <p>Cash, CDs, stocks, cars, debts, growth, income, and retirement notes.</p>
+        </div>
+
+        <div class="home-card" onclick="showSection('garage')">
+          <h2>🚗 My Garage</h2>
+          <p>Maintenance, oil changes, tires, warranty, insurance, fuel, photos, and documents.</p>
+        </div>
+
+        <div class="home-card" onclick="showSection('health')">
+          <h2>🩺 Health Reset</h2>
+          <p>Weight tracker, food photos notes, daily wins, water, walks with Rocket & Luna, and progress.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pups" class="section">
+      <button class="back-btn" onclick="showSection('home')">← Back</button>
+      <h2 class="section-title">🐶 Rocket & Luna Life</h2>
+
+      <div class="two-col">
+        <div class="card">
+          <h3>Rocket Profile</h3>
+          <label>Birthday</label>
+          <input id="rocketBirthday" type="date">
+          <label>Weight History</label>
+          <textarea id="rocketWeight" placeholder="Example: June 2026 - 11 lb"></textarea>
+          <label>Favorite Foods</label>
+          <textarea id="rocketFoods"></textarea>
+          <label>Funny Habits</label>
+          <textarea id="rocketHabits"></textarea>
+        </div>
+
+        <div class="card">
+          <h3>Luna Profile</h3>
+          <label>Birthday</label>
+          <input id="lunaBirthday" type="date">
+          <label>Weight History</label>
+          <textarea id="lunaWeight" placeholder="Example: June 2026 - 11 lb"></textarea>
+          <label>Favorite Foods</label>
+          <textarea id="lunaFoods"></textarea>
+          <label>Funny Habits</label>
+          <textarea id="lunaHabits"></textarea>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Medical Records</h3>
+        <label>Vaccines</label>
+        <textarea id="pupVaccines"></textarea>
+        <label>Vet Visits</label>
+        <textarea id="pupVetVisits"></textarea>
+        <label>Medications</label>
+        <textarea id="pupMeds"></textarea>
+        <label>Insurance Claims</label>
+        <textarea id="pupInsurance"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Grooming Tracker</h3>
+        <label>Last Haircut</label>
+        <input id="pupHaircut" type="date">
+        <label>Haircut Style Notes</label>
+        <textarea id="pupGroomingNotes" placeholder="Example: Teddy bear cut, short ears, rounded face"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Food Recipes & Supplements</h3>
+        <label>Chicken / Turkey / Beef Recipes</label>
+        <textarea id="pupRecipes"></textarea>
+        <label>Supplements Checklist</label>
+        <textarea id="pupSupplements" placeholder="Example: calcium, multivitamin, fish oil"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Photo Memories</h3>
+        <label>The Pups App Link or Notes</label>
+        <textarea id="pupPhotoMemories" placeholder="Add notes or paste the link to The Pups app later"></textarea>
+        <label>On This Day Memories</label>
+        <textarea id="pupOnThisDay"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveAll()">Save Rocket & Luna Life</button>
+    </section>
+
+    <section id="money" class="section">
+      <button class="back-btn" onclick="showSection('home')">← Back</button>
+      <h2 class="section-title">💰 Elias Financial Dashboard</h2>
+
+      <div class="summary">
+        <div class="stat"><span>Total Net Worth</span><strong id="netWorthDisplay">$0</strong></div>
+        <div class="stat"><span>2026 Growth</span><strong id="growthDisplay">$0</strong></div>
+        <div class="stat"><span>Monthly Income Generated</span><strong id="incomeDisplay">$0</strong></div>
+      </div>
+
+      <div class="card">
+        <h3>Net Worth Numbers</h3>
+        <label>Cash</label>
+        <input id="cash" type="number" placeholder="0">
+        <label>CDs</label>
+        <input id="cds" type="number" placeholder="0">
+        <label>Stocks / Investments</label>
+        <input id="stocks" type="number" placeholder="0">
+        <label>House Value</label>
+        <input id="houseValue" type="number" placeholder="0">
+        <label>Cars</label>
+        <input id="cars" type="number" placeholder="0">
+        <label>Debts</label>
+        <input id="debts" type="number" placeholder="0">
+        <label>2026 Growth</label>
+        <input id="growth" type="number" placeholder="0">
+        <label>Monthly Income Generated</label>
+        <input id="monthlyIncome" type="number" placeholder="0">
+        <label>Retirement Projection Notes</label>
+        <textarea id="retirementNotes"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveAll()">Save Financial Dashboard</button>
+    </section>
+
+    <section id="garage" class="section">
+      <button class="back-btn" onclick="showSection('home')">← Back</button>
+      <h2 class="section-title">🚗 My Garage</h2>
+
+      <div class="card">
+        <h3>Vehicle Info</h3>
+        <label>Vehicle</label>
+        <input id="vehicleName" value="2026 GMC Terrain Elevation AWD">
+        <label>Current Mileage</label>
+        <input id="vehicleMileage" type="number" placeholder="10000">
+        <label>Warranty Expiration</label>
+        <input id="warrantyDate" type="date">
+      </div>
+
+      <div class="card">
+        <h3>Maintenance Log</h3>
+        <label>Oil Changes</label>
+        <textarea id="oilChanges"></textarea>
+        <label>Tire Rotations</label>
+        <textarea id="tireRotations"></textarea>
+        <label>Other Maintenance</label>
+        <textarea id="maintenanceLog"></textarea>
+        <label>Next Alert</label>
+        <input id="garageAlert" placeholder="Example: Oil change due in 600 miles">
+      </div>
+
+      <div class="card">
+        <h3>Insurance, Fuel, Photos & Documents</h3>
+        <label>Insurance Quotes Saved</label>
+        <textarea id="insuranceQuotes"></textarea>
+        <label>Fuel Tracking</label>
+        <textarea id="fuelTracking"></textarea>
+        <label>Photo / Document Notes</label>
+        <textarea id="garageDocs" placeholder="Example: registration, insurance card, tire receipt"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveAll()">Save My Garage</button>
+    </section>
+
+    <section id="health" class="section">
+      <button class="back-btn" onclick="showSection('home')">← Back</button>
+      <h2 class="section-title">🩺 Health Reset</h2>
+
+      <div class="card">
+        <h3>Weight & Progress</h3>
+        <label>Current Weight</label>
+        <input id="currentWeight" type="number" placeholder="0">
+        <label>Weight Tracker</label>
+        <textarea id="weightTracker" placeholder="Example: June 21, 2026 - ___ lb"></textarea>
+        <label>Progress Photo Notes</label>
+        <textarea id="progressPhotos"></textarea>
+      </div>
+
+      <div class="card">
+        <h3>Daily Reset</h3>
+        <label>Food Pictures / Food Notes</label>
+        <textarea id="foodNotes"></textarea>
+        <label>Daily Wins</label>
+        <textarea id="dailyWins" placeholder="Example: Walked Rocket & Luna, drank more water"></textarea>
+        <label>Water Tracker</label>
+        <textarea id="waterTracker" placeholder="Example: 5 bottles today"></textarea>
+        <label>Walks With Rocket & Luna</label>
+        <textarea id="walksTracker" placeholder="Example: Morning walk - 20 minutes"></textarea>
+      </div>
+
+      <button class="save-btn" onclick="saveAll()">Save Health Reset</button>
+    </section>
+  </main>
+
+  <script>
+    const fields = [
+      "rocketBirthday","rocketWeight","rocketFoods","rocketHabits",
+      "lunaBirthday","lunaWeight","lunaFoods","lunaHabits",
+      "pupVaccines","pupVetVisits","pupMeds","pupInsurance",
+      "pupHaircut","pupGroomingNotes","pupRecipes","pupSupplements",
+      "pupPhotoMemories","pupOnThisDay",
+      "cash","cds","stocks","houseValue","cars","debts","growth","monthlyIncome","retirementNotes",
+      "vehicleName","vehicleMileage","warrantyDate","oilChanges","tireRotations","maintenanceLog",
+      "garageAlert","insuranceQuotes","fuelTracking","garageDocs",
+      "currentWeight","weightTracker","progressPhotos","foodNotes","dailyWins","waterTracker","walksTracker"
+    ];
+
+    function showSection(id) {
+      document.querySelectorAll(".section").forEach(section => {
+        section.classList.remove("active");
+      });
+      document.getElementById(id).classList.add("active");
+      window.scrollTo(0, 0);
+      updateMoneySummary();
+    }
+
+    function saveAll() {
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) localStorage.setItem("lifehub_" + id, el.value);
+      });
+
+      updateMoneySummary();
+      alert("Saved!");
+    }
+
+    function loadAll() {
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        const saved = localStorage.getItem("lifehub_" + id);
+        if (el && saved !== null) el.value = saved;
+      });
+
+      updateMoneySummary();
+    }
+
+    function money(id) {
+      const value = parseFloat(document.getElementById(id)?.value || 0);
+      return isNaN(value) ? 0 : value;
+    }
+
+    function formatCurrency(num) {
+      return num.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      });
+    }
+
+    function updateMoneySummary() {
+      const assets =
+        money("cash") +
+        money("cds") +
+        money("stocks") +
+        money("houseValue") +
+        money("cars");
+
+      const debts = money("debts");
+      const netWorth = assets - debts;
+
+      document.getElementById("netWorthDisplay").textContent = formatCurrency(netWorth);
+      document.getElementById("growthDisplay").textContent = formatCurrency(money("growth"));
+      document.getElementById("incomeDisplay").textContent = formatCurrency(money("monthlyIncome"));
+    }
+
+    document.addEventListener("input", function(e) {
+      if (fields.includes(e.target.id)) {
+        localStorage.setItem("lifehub_" + e.target.id, e.target.value);
+        updateMoneySummary();
+      }
+    });
+
+    loadAll();
+  </script>
+</body>
+</html>
